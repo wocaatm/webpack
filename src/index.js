@@ -1,6 +1,8 @@
+import _ from 'loadsh'
+
 function createDom () {
   const div = document.createElement('div')
-  div.innerHTML = 'hello webpack'
+  div.innerHTML = _.join(['hello', 'webpack'])
   
   return div
 }
