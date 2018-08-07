@@ -1,0 +1,31 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "learn webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.base.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wocaatm/webpack.git"
+  },
+  "author": "journey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wocaatm/webpack/issues"
+  },
+  "homepage": "https://github.com/wocaatm/webpack#readme",
+  "devDependencies": {
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.22.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.4"
+  }
+}
