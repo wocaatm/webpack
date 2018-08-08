@@ -1,9 +1,8 @@
-import _ from 'loadsh'
+import Math from './lib/math'
 
 function createDom () {
   const div = document.createElement('div')
-  div.innerHTML = _.join(['hello', 'webpack'])
-  
+  div.innerHTML = Math.cube(5)
   return div
 }
 
