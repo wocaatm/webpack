@@ -34,12 +34,6 @@ const baseConfig = {
       cacheGroups: {
         vendor: {
           test: (module) => {
-            // for (const chunk of module.chunksIterable) {
-            //   console.log(chunk.name)
-            // }
-            // console.log(module.nameForCondition())
-            // console.log(module.resource)
-            // console.log(module.nameForCondition() === module.resource)
             return (
               module.resource &&
               /\.js$/.test(module.resource) &&
