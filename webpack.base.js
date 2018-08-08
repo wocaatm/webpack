@@ -64,8 +64,6 @@ const baseConfig = {
         vendor: {
           test: (module) => {
             return (
-              module.resource &&
-              /\.js$/.test(module.resource) &&
               module.resource.indexOf(
                 path.join(__dirname, 'node_modules')
               ) === 0
