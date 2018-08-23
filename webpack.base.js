@@ -9,7 +9,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 //   app: './src/app.js'
 // }
 
-const entries = './src/main.js'
+const entries = './src/index.js'
 
 
 
@@ -55,6 +55,11 @@ const baseConfig = {
       template: 'index.html',
       filename:  'index.html',
       //chunks: [entry, 'mainifest', 'vendor']
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     })
     //new webpack.HashedModuleIdsPlugin()  // 建议在生产环境使用 nameModulePlugin() 建议在开发环境使用
   ],
@@ -64,6 +69,8 @@ const baseConfig = {
         vendor: {
           test: (module) => {
             return (
+              module.resource &&
+              /\.js$/.test(module.resource) &&
               module.resource.indexOf(
                 path.join(__dirname, 'node_modules')
               ) === 0
@@ -71,14 +78,21 @@ const baseConfig = {
           },
           name: 'vendor',
           chunks: 'all',
-          minSize: 0,
-          reuseExistingChunk: true
+          minSize: 0
+        },
+        asyncVueQrcode: {
+          chunks: (chunk) => {
+            return chunk.name === 'jquery'
+          },
+          name: 'async-jquery',
+          priority: 1   // 这个优先级需要比vendor大，不然这个chunk还是会被打包到vendor中
         }
       }
     },
     runtimeChunk: {
       name: 'mainifest'
-    }
+    },
+    concatenateModules: true
   }
 }
 

@@ -1,18 +1,23 @@
-import $ from 'jquery'
+import _ from 'loadsh'
 
 function createDom () {
   const div = document.createElement('div')
-  div.innerHTML = "测试"
+  div.innerHTML = _.join(['hello', 'world'])
   
   div.classList.add('app')
+  
+  div.onclick = function () {
+    switchColor()
+  }
   return div
 }
 
 function switchColor () {
-  $('.app').css({color: 'red'})
+  import(/* webpackChunkName: "jquery"*/ 'jquery').then(m => {
+    const $ = m.default
+    $('.app').css({color: 'red'})
+  })
 }
 
 document.body.appendChild(createDom())
-
-switchColor()
 

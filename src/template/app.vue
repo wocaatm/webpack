@@ -14,6 +14,9 @@
         count: 0
       }
     },
+    mounted () {
+      console.log(process.env.NODE_ENV)
+    },
     components: {
       'qr-code': qrCode
     }
