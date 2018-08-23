@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const cleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 //
 const entries = {
   entryA: './src/entryA.js',
@@ -45,7 +46,7 @@ const baseConfig = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -68,6 +69,7 @@ const baseConfig = {
   optimization: {
     splitChunks: {
       chunks: 'all',
+      //name: false,
       cacheGroups: {
         // vendor: {
         //   test: (module) => {
