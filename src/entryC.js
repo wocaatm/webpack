@@ -1,6 +1,10 @@
 import Vue from 'vue'
+import Header from './component/common/header'
 
 new Vue({
   el: '#app',
-  template: '<div>entry-c</div>'
+  template: '<Header />',
+  component: {
+    Header
+  }
 })

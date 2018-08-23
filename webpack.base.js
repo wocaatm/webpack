@@ -63,6 +63,9 @@ const baseConfig = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css'
     })
     //new webpack.HashedModuleIdsPlugin()  // 建议在生产环境使用 nameModulePlugin() 建议在开发环境使用
   ],
