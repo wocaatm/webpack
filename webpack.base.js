@@ -4,12 +4,14 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const cleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 //
-// const entries = {
-//   index: './src/index.js',
-//   app: './src/app.js'
-// }
+const entries = {
+  entryA: './src/entryA.js',
+  entryB: './src/entryB.js',
+  entryC: './src/entryC.js',
+  entryD: './src/entryD.js'
+}
 
-const entries = './src/index.js'
+//const entries = './src/index.js'
 
 
 
@@ -50,12 +52,12 @@ const baseConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new cleanWebpackPlugin(['dist/*']),
-    new htmlWebpackPlugin({
-      title: '测试',
-      template: 'index.html',
-      filename:  'index.html',
-      //chunks: [entry, 'mainifest', 'vendor']
-    }),
+    // new htmlWebpackPlugin({
+    //   title: '测试',
+    //   template: 'index.html',
+    //   filename:  'index.html',
+    //   chunks: [entry, 'mainifest', 'vendor']
+    // }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -65,28 +67,30 @@ const baseConfig = {
   ],
   optimization: {
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        vendor: {
-          test: (module) => {
-            return (
-              module.resource &&
-              /\.js$/.test(module.resource) &&
-              module.resource.indexOf(
-                path.join(__dirname, 'node_modules')
-              ) === 0
-            )
-          },
-          name: 'vendor',
-          chunks: 'all',
-          minSize: 0
-        },
-        asyncVueQrcode: {
-          chunks: (chunk) => {
-            return chunk.name === 'jquery'
-          },
-          name: 'async-jquery',
-          priority: 1   // 这个优先级需要比vendor大，不然这个chunk还是会被打包到vendor中
-        }
+        // vendor: {
+        //   test: (module) => {
+        //     return (
+        //       module.resource &&
+        //       /\.js$/.test(module.resource) &&
+        //       module.resource.indexOf(
+        //         path.join(__dirname, 'node_modules')
+        //       ) === 0
+        //     )
+        //   },
+        //   name: 'vendor',
+        //   chunks: 'all',
+        //   minSize: 0
+        // },
+        vendors: false
+        // asyncVueQrcode: {
+        //   chunks: (chunk) => {
+        //     return chunk.name === 'jquery'
+        //   },
+        //   name: 'async-jquery',
+        //   priority: 1   // 这个优先级需要比vendor大，不然这个chunk还是会被打包到vendor中
+        // }
       }
     },
     runtimeChunk: {
@@ -96,16 +100,16 @@ const baseConfig = {
   }
 }
 
-// for (let entry in entries) {
-//   if (entries.hasOwnProperty(entry)) {
-//     baseConfig.plugins.push(new htmlWebpackPlugin({
-//       title: entry,
-//       template: 'index.html',
-//       filename: entry + '.html',
-//       chunks: [entry, 'mainifest', 'vendor']
-//     }))
-//   }
-// }
+for (let entry in entries) {
+  if (entries.hasOwnProperty(entry)) {
+    baseConfig.plugins.push(new htmlWebpackPlugin({
+      title: entry,
+      template: 'index.html',
+      filename: entry + '.html',
+      chunks: [entry, 'mainifest', 'vendor']
+    }))
+  }
+}
 
 
 module.exports = baseConfig

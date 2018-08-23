@@ -1,9 +1,8 @@
-import Math from './lib/math'
+import Vue from 'vue'
+import App from './component/index/app'
 
-function createDom () {
-  const div = document.createElement('div')
-  div.innerHTML = Math.cube(5)
-  return div
-}
-
-document.body.appendChild(createDom())
+new Vue({
+  el: '#app',
+  template: '<App/>',
+  components: {App}
+})

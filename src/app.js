@@ -15,7 +15,7 @@ function createDom () {
 function switchColor () {
   import(/* webpackChunkName: "jquery"*/ 'jquery').then(m => {
     const $ = m.default
-    $('.app').css({color: 'red'})
+    $('.index').css({color: 'red'})
   })
 }
 
