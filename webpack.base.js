@@ -71,33 +71,52 @@ const baseConfig = {
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all',
-      //name: false,
       cacheGroups: {
-        // vendor: {
-        //   test: (module) => {
-        //     return (
-        //       module.resource &&
-        //       /\.js$/.test(module.resource) &&
-        //       module.resource.indexOf(
-        //         path.join(__dirname, 'node_modules')
-        //       ) === 0
-        //     )
-        //   },
-        //   name: 'vendor',
-        //   chunks: 'all',
-        //   minSize: 0
-        // },
-        vendors: false
-        // asyncVueQrcode: {
-        //   chunks: (chunk) => {
-        //     return chunk.name === 'jquery'
-        //   },
-        //   name: 'async-jquery',
-        //   priority: 1   // 这个优先级需要比vendor大，不然这个chunk还是会被打包到vendor中
-        // }
+        vendors: {
+          name: 'chunk-vendors',
+          test: /[\\\/]node_modules[\\\/]/,
+          priority: -10,
+          chunks: 'initial'
+        },
+        common: {
+          minChunks: 2,
+          priority: -20,
+          chunks: 'initial',
+          minSize: 0,
+          name: false
+        }
       }
     },
+    // splitChunks: {
+    //   chunks: 'all',
+    //   //name: false,
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: (module) => {
+    //         return (
+    //           module.resource &&
+    //           /\.js$/.test(module.resource) &&
+    //           module.resource.indexOf(
+    //             path.join(__dirname, 'node_modules')
+    //           ) === 0
+    //         )
+    //       },
+    //       name: 'vendor',
+    //       chunks: 'all',
+    //       minSize: 0
+    //     },
+    //     common: {
+    //       minC
+    //     }
+    //     // asyncVueQrcode: {
+    //     //   chunks: (chunk) => {
+    //     //     return chunk.name === 'jquery'
+    //     //   },
+    //     //   name: 'async-jquery',
+    //     //   priority: 1   // 这个优先级需要比vendor大，不然这个chunk还是会被打包到vendor中
+    //     // }
+    //   }
+    // },
     runtimeChunk: {
       name: 'mainifest'
     },

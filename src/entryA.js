@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import _ from 'loadsh'
+import Footer from './component/common/footer'
 
 new Vue({
   el: '#app',
-  template: '<div>entry-a</div>'
+  template: '<Footer/>',
+  components: {
+    Footer: Footer
+  }
 })
