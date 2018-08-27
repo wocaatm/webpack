@@ -10,6 +10,9 @@
   export default {
     name: "header",
     mounted () {
+      import('handsontable-pro/dist/handsontable.css').then(() => {
+        this.loadScript('//static.xinrenxinshi.com/storm/handsontable-1.13.0.full.min.js', this.createTable)
+      })
       // let container = this.$refs.table
       // import 会产生一个chunk
       // import(/* webpackChunkName: "handsontable"*/ 'handsontable').then(m => {
@@ -21,7 +24,7 @@
       //     columnSorting : true
       //   })
       // })
-      this.loadScript('//static.xinrenxinshi.com/storm/handsontable-1.13.0.full.min.js', this.createTable)
+      //this.loadScript('//static.xinrenxinshi.com/storm/handsontable-1.13.0.full.min.js', this.createTable)
     },
     methods: {
       loadScript (url, callback) {
@@ -56,7 +59,7 @@
 </script>
 
 <style>
-    @import "~handsontable-pro/dist/handsontable.css";
-
-    @import "./header.css";
+    #header {
+        color: red;
+    }
 </style>

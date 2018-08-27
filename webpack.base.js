@@ -66,7 +66,7 @@ const baseConfig = {
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css'
-    })
+    }),
     //new webpack.HashedModuleIdsPlugin()  // 建议在生产环境使用 nameModulePlugin() 建议在开发环境使用
   ],
   optimization: {
@@ -82,16 +82,16 @@ const baseConfig = {
           name: 'verdor-common',
           minChunks: 2,
           priority: -20,
-          chunks: 'all',
+          chunks: 'initial',
           minSize: 0,
           reuseExistingChunk: true
         },
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true
-        }
+        // styles: {
+        //   name: 'styles',
+        //   test: /\.css$/,
+        //   chunks: 'all',
+        //   enforce: true
+        // }
       }
     },
     // splitChunks: {
