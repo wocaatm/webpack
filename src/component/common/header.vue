@@ -57,8 +57,6 @@
 
 <style>
     @import "~handsontable-pro/dist/handsontable.css";
-    
-    #header {
-        color: red;
-    }
+
+    @import "./header.css";
 </style>
