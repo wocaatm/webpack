@@ -4,7 +4,7 @@ import Header from './component/common/header'
 new Vue({
   el: '#app',
   template: '<Header />',
-  component: {
+  components: {
     Header
   }
 })
