@@ -11,11 +11,17 @@
 
 <script>
 	export default {
-		data () {
-			return {
-				list: [1,2,3,4]
+		props: {
+			list: {
+				type: Array,
+				default: []
 			}
 		},
+		// data () {
+		// 	return {
+		// 		list: [1,2,3,4]
+		// 	}
+		// },
 		methods: {
 			changeIndex () {
 				let [a, b] = this.list
@@ -35,19 +41,19 @@
 		updated () {
 			console.log('update patch')
 		},
-		watch: {
-			list: {
-				handler: function (o, n) {
-					console.log('list change')
-					console.log(o.length)
-					console.log(o === n)
-					if (o.length !== n.length) {
-						console.log('length change')
-					}
-				},
-				deep: true
-			}
-		}
+		// watch: {
+		// 	list: {
+		// 		handler: function (o, n) {
+		// 			console.log('list change')
+		// 			console.log(o.length)
+		// 			console.log(o === n)
+		// 			if (o.length !== n.length) {
+		// 				console.log('length change')
+		// 			}
+		// 		},
+		// 		deep: true
+		// 	}
+		// }
 	}
 
 	// 哪怕表象不变，比如数组的顺序没变，其实源码中当调用Array的一些变异方法之后就会触发update的钩子，watch的deep：true 之后，handler里面的 变化前后的对象是没有办法比较的，应为是引用对象，所以o === n 内部所有的比较都是无用的
