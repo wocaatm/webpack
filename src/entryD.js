@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Header from './component/common/header'
+import Watch from './component/common/watch'
 
 new Vue({
   el: '#app',
-  template: '<div><Header/><p>123</p></div>',
+  template: '<div><Watch/></div>',
   components: {
-    Header
+    Header,
+    Watch
   }
 })
