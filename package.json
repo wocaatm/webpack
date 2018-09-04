@@ -45,6 +45,7 @@
     "jquery": "^3.3.1",
     "loadsh": "^1.0.1",
     "vue": "^2.5.17",
-    "vue-qrcode-component": "^2.1.1"
+    "vue-qrcode-component": "^2.1.1",
+    "vue-router": "^3.0.1"
   }
 }

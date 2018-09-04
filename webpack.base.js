@@ -4,12 +4,18 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const cleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 //
+// const entries = {
+//   entryA: './src/entryA.js',
+//   entryB: './src/entryB.js',
+//   entryC: './src/entryC.js',
+//   entryD: './src/entryD.js'
+// }
+
 const entries = {
-  entryA: './src/entryA.js',
-  entryB: './src/entryB.js',
-  entryC: './src/entryC.js',
-  entryD: './src/entryD.js'
+  moduleA: './src/moduleA.js',
+  // moduleB: './src/moduleB.js'
 }
 
 //const entries = './src/index.js'
@@ -67,25 +73,27 @@ const baseConfig = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css'
     }),
+    new webpackBundleAnalyzer(),
     //new webpack.HashedModuleIdsPlugin()  // 建议在生产环境使用 nameModulePlugin() 建议在开发环境使用
   ],
   optimization: {
     splitChunks: {
       cacheGroups: {
+        // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
         vendors: {
           name: 'chunk-vendors',
           test: /[\\\/]node_modules[\\\/]/,
           priority: -10,
           chunks: 'all'
         },
+        default: false,
+        // 初始化的chunks 也就是入口chunks中只有有共用的就会被打包到chunk-common中
         common: {
-          name: 'verdor-common',
           minChunks: 2,
           priority: -20,
-          chunks: 'initial',
           minSize: 0,
           reuseExistingChunk: true
-        },
+        }
         // styles: {
         //   name: 'styles',
         //   test: /\.css$/,
@@ -137,7 +145,7 @@ for (let entry in entries) {
       title: entry,
       template: 'index.html',
       filename: entry + '.html',
-      chunks: [entry, 'mainifest', 'vendor']
+      //chunks: ['mainifest', 'chunk-vendors', 'chunk-common', entry]
     }))
   }
 }
