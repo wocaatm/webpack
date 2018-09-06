@@ -7,12 +7,16 @@
 
 <script>
   import moduleNav from './nav.vue'
+  import _ from 'loadsh'
 
   export default {
   	data () {
   		return {
   		}
   	},
+    create () {
+      let t = this
+    },
     components: {
       moduleNav
     }

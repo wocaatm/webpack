@@ -15,7 +15,7 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
 
 const entries = {
   moduleA: './src/moduleA.js',
-  // moduleB: './src/moduleB.js'
+  moduleB: './src/moduleB.js'
 }
 
 //const entries = './src/index.js'
@@ -31,6 +31,7 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
+    /* 这个是解决使用node_modules vue的时候默认引入的是没有模板解析的，导致*.vue 中tempalte没有响应的loader去处理 */
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
     },
@@ -78,22 +79,36 @@ const baseConfig = {
   ],
   optimization: {
     splitChunks: {
+      //name: false,
       cacheGroups: {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
         vendors: {
-          name: 'chunk-vendors',
           test: /[\\\/]node_modules[\\\/]/,
           priority: -10,
-          chunks: 'all'
+          chunks: 'initial'
         },
-        default: false,
+        // default: false,
         // 初始化的chunks 也就是入口chunks中只有有共用的就会被打包到chunk-common中
         common: {
           minChunks: 2,
           priority: -20,
           minSize: 0,
-          reuseExistingChunk: true
+          reuseExistingChunk: true,
+          chunks: 'initial'
         }
+        // vendors: {
+        //   name: 'chunk-vendors',
+        //   test: /[\\\/]node_modules[\\\/]/,
+        //   priority: -10,
+        //   chunks: 'initial'
+        // },
+        // common: {
+        //   name: 'chunk-common',
+        //   minChunks: 2,
+        //   priority: -20,
+        //   chunks: 'initial',
+        //   reuseExistingChunk: true
+        // }
         // styles: {
         //   name: 'styles',
         //   test: /\.css$/,
@@ -145,7 +160,7 @@ for (let entry in entries) {
       title: entry,
       template: 'index.html',
       filename: entry + '.html',
-      //chunks: ['mainifest', 'chunk-vendors', 'chunk-common', entry]
+      chunks: [entry]
     }))
   }
 }

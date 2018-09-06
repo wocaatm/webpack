@@ -1,6 +1,6 @@
 <template>
     <div id="module-a-index">
-      <common-header></common-header>
+      <!-- <common-header></common-header> -->
 		  <module-nav></module-nav>
     	<p>这是moduleB的首页。直接加载。不是懒加载</p>
     </div>
@@ -19,7 +19,7 @@
   	},
   	components: {
   		moduleNav,
-      commonHeader
+      //commonHeader
   	}
   }
 </script>

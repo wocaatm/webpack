@@ -12,14 +12,14 @@ const router = new VueRouter({
 			path: '/',
 			component: Index
 		},
+		// {
+		// 	path: '/noFound',
+		// 	component: resolve => require(['../moduleA/noFound.vue'], resolve)
+		// },
 		{
 			path: '/about',
 			component: resolve => require(['../moduleA/about.vue'], resolve)
 		},
-		{
-			path: '/noFound',
-			component: resolve => require(['../moduleA/noFound.vue'], resolve)
-		}
 	]
 })
 

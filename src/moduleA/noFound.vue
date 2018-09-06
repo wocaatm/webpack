@@ -7,6 +7,7 @@
 
 <script>
   import moduleNav from './nav.vue'
+  import _ from 'loadsh'
 
   export default {
   	data () {
@@ -15,6 +16,9 @@
   			}
   		}
   	},
+    create () {
+      let t = this
+    },
   	components: {
   		moduleNav
   	}
