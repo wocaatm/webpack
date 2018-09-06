@@ -15,7 +15,8 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
 
 const entries = {
   moduleA: './src/moduleA.js',
-  moduleB: './src/moduleB.js'
+  moduleB: './src/moduleB.js',
+  moduleC: './src/moduleC.js'
 }
 
 //const entries = './src/index.js'
@@ -82,6 +83,7 @@ const baseConfig = {
       //name: false,
       cacheGroups: {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
+        // 覆盖了原有默认的webpack4的配置
         vendors: {
           test: /[\\\/]node_modules[\\\/]/,
           priority: -10,
@@ -92,10 +94,16 @@ const baseConfig = {
         common: {
           minChunks: 2,
           priority: -20,
-          minSize: 0,
           reuseExistingChunk: true,
           chunks: 'initial'
-        }
+        },
+        /* 这个是容易被忽略的一个使用的默认规则 */
+        default: {
+          minChunks: 2,
+          priority: -20,
+          minSize:0,
+          reuseExistingChunk: true,
+        },
         // vendors: {
         //   name: 'chunk-vendors',
         //   test: /[\\\/]node_modules[\\\/]/,

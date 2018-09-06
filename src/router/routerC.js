@@ -11,6 +11,10 @@ const router = new VueRouter({
 		{
 			path: '/',
 			component: Index
+		},
+		{
+			path: '/about',
+			component: resolve => require(['../moduleC/about.vue'], resolve)
 		}
 	]
 })

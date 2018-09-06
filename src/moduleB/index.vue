@@ -8,7 +8,7 @@
 
 <script>
   import moduleNav from './nav.vue'
-  import commonHeader from '../component/common/header.vue'
+  // import commonHeader from '../component/common/header.vue'
 
   export default {
   	data () {
