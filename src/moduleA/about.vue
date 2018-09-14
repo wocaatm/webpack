@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import '../assets/css/common.css'
   import commonHeader from '../component/common/header.vue'
   //import moduleNav from './nav.vue'
   //import _ from 'loadsh'
@@ -25,7 +26,8 @@
 </script>
 
 <style>
-  #module-a-index {
+  #module-a-about {
+    font-size: 12px;
   	color: red;
   }
 </style>

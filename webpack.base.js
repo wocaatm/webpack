@@ -5,6 +5,7 @@ const cleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+let i = 0
 //
 // const entries = {
 //   entryA: './src/entryA.js',
@@ -13,11 +14,34 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
 //   entryD: './src/entryD.js'
 // }
 
-const entries = {
-  moduleA: './src/moduleA.js',
-  moduleB: './src/moduleB.js',
-  moduleC: './src/moduleC.js'
+// function recursiveIssuer(m) {
+//   if (m.issuer) {
+//     return recursiveIssuer(m.issuer);
+//   } else if (m.name) {
+//     return m.name;
+//   } else {
+//     return false;
+//   }
+// }
+
+function recursiveIssuer(m) {
+  if (m.issuer) {
+    return recursiveIssuer(m.issuer);
+  } else {
+    for (var chunk of m._chunks) {
+      return chunk["name"]
+    }
+    return false;
+  }
 }
+
+const entries = {
+  moduleA: './src/moduleA.js'
+}
+
+// const entries = {
+//   module: './src/modueNoRouter.js'
+// }
 
 //const entries = './src/index.js'
 
@@ -37,6 +61,10 @@ const baseConfig = {
       'vue$': 'vue/dist/vue.esm.js'
     },
     symlinks: false
+  },
+  externals: {
+    'element-ui': 'element-ui',
+    vue:'Vue',
   },
   module: {
     rules: [
@@ -103,6 +131,24 @@ const baseConfig = {
           priority: -20,
           minSize:0,
           reuseExistingChunk: true,
+        },
+        // 只会提取所有的非vue文件里面的css样式
+        // styles: {
+        //   name: 'styles',
+        //   test: /\.css$/,
+        //   chunks: 'all',
+        //   enforce: true
+        // }
+        fooStyles: {
+          name: 'moduleA',
+          test: (m,c,entry = 'moduleA') => {
+            if (m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry) {
+              console.log(recursiveIssuer(m))
+            }
+            return m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry
+          },
+          chunks: 'all',
+          priority: -30
         },
         // vendors: {
         //   name: 'chunk-vendors',

@@ -5,8 +5,15 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+
+  //Vue.prototype.$message.success('helo world')
+  console.log(Vue.$message)
+  console.log('========== ')
+  console.log(Vue.prototype)
+  
   export default {
-    name: "app"
+    name: "app",
   }
 </script>
 
