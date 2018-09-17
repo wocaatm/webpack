@@ -139,17 +139,17 @@ const baseConfig = {
         //   chunks: 'all',
         //   enforce: true
         // }
-        fooStyles: {
-          name: 'moduleA',
-          test: (m,c,entry = 'moduleA') => {
-            if (m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry) {
-              console.log(recursiveIssuer(m))
-            }
-            return m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry
-          },
-          chunks: 'all',
-          priority: -30
-        },
+        // fooStyles: {
+        //   name: 'moduleA',
+        //   test: (m,c,entry = 'moduleA') => {
+        //     if (m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry) {
+        //       console.log(recursiveIssuer(m))
+        //     }
+        //     return m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry
+        //   },
+        //   chunks: 'all',
+        //   priority: -30
+        // },
         // vendors: {
         //   name: 'chunk-vendors',
         //   test: /[\\\/]node_modules[\\\/]/,
