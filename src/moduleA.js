@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import './assets/css/base.css'
-import router from './router/routerA'
+import Watch from './moduleA/watch'
 
 new Vue({
   el: '#app',
-  router
+  template: '<Watch/>',
+  components: {
+  	Watch
+  }
 })
