@@ -5,7 +5,6 @@ const cleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-let i = 0
 
 //
 const entries = {
@@ -83,7 +82,7 @@ const baseConfig = {
             loader: 'url-loader',
             query: {
                 limit: 10000,
-                name: __dirname + '/dist/img/[name].[hash:7].[ext]'
+                name: path.posix.join('/', 'img/[name].[hash:7].[ext]')
             }
         },
         {
@@ -91,7 +90,7 @@ const baseConfig = {
             loader: 'url-loader',
             query: {
                 limit: 10000,
-                name: __dirname + '/dist/fonts/[name].[hash:7].[ext]'
+                name: path.posix.join('/', 'fonts/[name].[hash:7].[ext]')
             }
         }
     ]
@@ -123,6 +122,7 @@ const baseConfig = {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
         // 覆盖了原有默认的webpack4的配置
         vendors: {
+          name: 'chunk-vendor',
           test: /[\\\/]node_modules[\\\/]/,
           priority: -10,
           chunks: 'initial'
@@ -130,11 +130,38 @@ const baseConfig = {
         // default: false,
         // 初始化的chunks 也就是入口chunks中只有有共用的就会被打包到chunk-common中
         common: {
+          name: 'chunk-common',
           minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-          chunks: 'initial'
+          priority: -11,
+          chunks: 'initial',
+          minSize: 0
         },
+        style: {
+          name: 'common-style',
+          test: (module) => {
+            let condition1 = module.resource &&
+                (
+                    module.resource.indexOf(
+                        path.join(__dirname, 'node_modules')
+                    ) === 0 ||
+                    module.resource.indexOf(
+                        path.join(__dirname, 'client/assets')
+                    ) === 0
+                )
+              
+            let condition2 = module.constructor.name === 'CssModule'
+            
+            console.log(module.resource)
+            console.log(module.constructor.name)
+              
+              console.log('=========end============')
+            
+            return condition1 && condition2
+          },
+            priority: -9,
+            chunks: 'initial',
+            minSize: 0
+        }
         /* 这个是容易被忽略的一个使用的默认规则 */
         // default: {
         //   minChunks: 2,
