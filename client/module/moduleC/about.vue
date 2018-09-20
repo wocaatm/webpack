@@ -5,9 +5,6 @@
 </template>
 
 <script>
-  import commonHeader from '../component/common/header.vue'
-  import _ from 'loadsh'
-
   export default {
   	data () {
   		return {
@@ -15,15 +12,13 @@
   	},
     create () {
       let t = this
-    },
-    components: {
-      //moduleNav
     }
   }
 </script>
 
 <style>
-  #module-a-index {
-  	color: red;
+  #module-c-about {
+  	color: #fff;
+      font-weight: 800;
   }
 </style>

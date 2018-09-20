@@ -1,14 +1,12 @@
 <template>
     <div id="module-a-index">
-      <!-- <common-header></common-header>   -->
-		  <!-- <module-nav></module-nav> -->
+        <common-header></common-header>
     	<p>这是moduleA的首页。直接加载。不是懒加载</p>
     </div>
 </template>
 
 <script>
-  // import moduleNav from './nav.vue'
-  //import commonHeader from '../component/common/header.vue'
+  import commonHeader from 'assets/component/header'
 
   export default {
   	data () {
@@ -18,8 +16,7 @@
   		}
   	},
   	components: {
-  		//moduleNav,
-      //commonHeader
+      commonHeader
   	}
   }
 </script>
