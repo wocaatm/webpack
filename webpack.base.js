@@ -8,9 +8,8 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
 
 //
 const entries = {
-  entryA: './client/module/moduleA/index.js',
-  entryB: './client/module/moduleB/index.js',
-  entryC: './client/module/moduleC/index.js'
+  entryA: ['./client/assets/component/index.js', './client/module/moduleA/index.js'],
+  entryB: ['./client/assets/component/index.js', './client/module/moduleB/index.js']
 }
 
 
@@ -25,15 +24,16 @@ const entries = {
 //   }
 // }
 
-// const entries = {
-//   moduleA: './src/moduleA.js'
-// }
-
-// const entries = {
-//   module: './src/modueNoRouter.js'
-// }
-
-//const entries = './src/index.js'
+function recursiveIssuer(m) {
+  if (m.issuer) {
+    return recursiveIssuer(m.issuer);
+  } else if (m.name) {
+    console.log(m.name)
+    return m.name;
+  } else {
+    return false;
+  }
+}
 
 function resolve (dir) {
     return path.join(__dirname, dir)
@@ -117,17 +117,35 @@ const baseConfig = {
   ],
   optimization: {
     splitChunks: {
+      maxAsyncRequests: 10,
+      maxInitialRequests: 5,
       //name: false,
       cacheGroups: {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
         // 覆盖了原有默认的webpack4的配置
+        baseStyle: {
+          name: 'base-style',
+          test: module => module.nameForCondition &&
+              /\.css$/.test(module.nameForCondition()) &&
+              !/^javascript/.test(module.type),
+          chunks: 'initial',
+          minSize: 0,
+          enforce: true    
+        },
         vendors: {
           name: 'chunk-vendor',
-          test: /[\\\/]node_modules[\\\/]/,
+          // test: (m) => {
+          //   let condition1 = m.resource && m.resource.indexOf(path.join(__dirname, 'node_modules')) === 0
+          //   let condition2 = m.resource && m.resource.indexOf(path.join(__dirname, 'client/assets/css')) === 0
+          //   if (condition1 || condition2) {
+          //     console.log(m.resource)
+          //   }
+          //   return condition2 || condition1
+          // },
+          test: /[\\/]node_modules[\\/]/,
           priority: -10,
           chunks: 'initial'
         },
-        // default: false,
         // 初始化的chunks 也就是入口chunks中只有有共用的就会被打包到chunk-common中
         common: {
           name: 'chunk-common',
@@ -136,32 +154,50 @@ const baseConfig = {
           chunks: 'initial',
           minSize: 0
         },
-        style: {
-          name: 'common-style',
-          test: (module) => {
-            let condition1 = module.resource &&
-                (
-                    module.resource.indexOf(
-                        path.join(__dirname, 'node_modules')
-                    ) === 0 ||
-                    module.resource.indexOf(
-                        path.join(__dirname, 'client/assets')
-                    ) === 0
-                )
+        // fooStyles: {
+        //   name: 'moduleA',
+        //   test: (m,c,entry = 'entryA') => m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+        //   chunks: 'all',
+        //   enforce: true
+        // },
+        // barStyles: {
+        //   name: 'bar',
+        //   test: (m,c,entry = 'entryB') => m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry,
+        //   chunks: 'all',
+        //   enforce: true
+        // }
+        // styles: {
+        //   name: 'styles',
+        //   test: /\.s?css$/,
+        //   chunks: 'initial',
+        //   minChunks: 2 
+        // }
+        // style: {
+        //   name: 'common-style',
+        //   test: (module) => {
+        //     let condition1 = module.resource &&
+        //         (
+        //             module.resource.indexOf(
+        //                 path.join(__dirname, 'node_modules')
+        //             ) === 0 ||
+        //             module.resource.indexOf(
+        //                 path.join(__dirname, 'client/assets')
+        //             ) === 0
+        //         )
               
-            let condition2 = module.constructor.name === 'CssModule'
+        //     let condition2 = module.constructor.name === 'CssModule'
             
-            console.log(module.resource)
-            console.log(module.constructor.name)
+        //     console.log(module.resource)
+        //     console.log(module.constructor.name)
               
-              console.log('=========end============')
+        //       console.log('=========end============')
             
-            return condition1 && condition2
-          },
-            priority: -9,
-            chunks: 'initial',
-            minSize: 0
-        }
+        //     return condition1 && condition2
+        //   },
+        //     priority: -9,
+        //     chunks: 'initial',
+        //     minSize: 0
+        // }，
         /* 这个是容易被忽略的一个使用的默认规则 */
         // default: {
         //   minChunks: 2,
@@ -199,12 +235,6 @@ const baseConfig = {
         //   priority: -20,
         //   chunks: 'initial',
         //   reuseExistingChunk: true
-        // }
-        // styles: {
-        //   name: 'styles',
-        //   test: /\.css$/,
-        //   chunks: 'all',
-        //   enforce: true
         // }
       }
     },
