@@ -6,10 +6,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-//
 const entries = {
-  entryA: ['./client/assets/component/index.js', './client/module/moduleA/index.js'],
-  entryB: ['./client/assets/component/index.js', './client/module/moduleB/index.js']
+  entryA: './client/module/moduleA/index.js',
+  entryB: './client/module/moduleB/index.js'
 }
 
 
@@ -24,16 +23,16 @@ const entries = {
 //   }
 // }
 
-function recursiveIssuer(m) {
-  if (m.issuer) {
-    return recursiveIssuer(m.issuer);
-  } else if (m.name) {
-    console.log(m.name)
-    return m.name;
-  } else {
-    return false;
-  }
-}
+// function recursiveIssuer(m) {
+//   if (m.issuer) {
+//     return recursiveIssuer(m.issuer);
+//   } else if (m.name) {
+//     console.log(m.name)
+//     return m.name;
+//   } else {
+//     return false;
+//   }
+// }
 
 function resolve (dir) {
     return path.join(__dirname, dir)
@@ -98,12 +97,6 @@ const baseConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new cleanWebpackPlugin(['dist/*']),
-    // new htmlWebpackPlugin({
-    //   title: '测试',
-    //   template: 'index.html',
-    //   filename:  'index.html',
-    //   chunks: [entry, 'mainifest', 'vendor']
-    // }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -112,25 +105,39 @@ const baseConfig = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css'
     }),
-    new webpackBundleAnalyzer(),
+    //new webpackBundleAnalyzer(),
     //new webpack.HashedModuleIdsPlugin()  // 建议在生产环境使用 nameModulePlugin() 建议在开发环境使用
   ],
   optimization: {
     splitChunks: {
-      maxAsyncRequests: 10,
-      maxInitialRequests: 5,
       //name: false,
       cacheGroups: {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
         // 覆盖了原有默认的webpack4的配置
-        baseStyle: {
-          name: 'base-style',
+        // baseStyle: {
+        //   name: 'base-style',
+        //   test: module => module.nameForCondition &&
+        //       /\.css$/.test(module.nameForCondition()) &&
+        //       !/^javascript/.test(module.type),
+        //   chunks: 'initial',
+        //   minSize: 0,
+        //   enforce: true    
+        // },
+        // TODO 提取初始化的css样式
+        // commonsStyle: {
+        //   name: 'commons-style',
+        //   test: /\.(s)?css$/,
+        //   chunks: 'initial',
+        //   minChunks: 2,
+        //   enforce: true
+        // },
+        commonStyle: {
+          name: 'common-style',
           test: module => module.nameForCondition &&
-              /\.css$/.test(module.nameForCondition()) &&
-              !/^javascript/.test(module.type),
-          chunks: 'initial',
+                /\.css$/.test(module.nameForCondition()) &&
+                !/^javascript/.test(module.type),
           minSize: 0,
-          enforce: true    
+          chunks: 'initial'         
         },
         vendors: {
           name: 'chunk-vendor',
@@ -150,7 +157,7 @@ const baseConfig = {
         common: {
           name: 'chunk-common',
           minChunks: 2,
-          priority: -11,
+          priority: -12,
           chunks: 'initial',
           minSize: 0
         },
