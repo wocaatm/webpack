@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import 'assets/css/base.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import Index from './index.vue'
+import About from './about.vue'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,7 @@ const router = new VueRouter({
         },
         {
             path: '/about',
-            component: resolve => require(['./about.vue'], resolve)
+            component: About
         }
     ]
 })
