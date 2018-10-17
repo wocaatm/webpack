@@ -19,6 +19,6 @@
 <style>
   #module-c-about {
   	color: #fff;
-      font-weight: 800;
+    font-weight: 800;
   }
 </style>

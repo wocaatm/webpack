@@ -8,31 +8,9 @@ const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerP
 
 const entries = {
   entryA: './client/module/moduleA/index.js',
-  entryB: './client/module/moduleB/index.js'
+  entryB: './client/module/moduleB/index.js',
+  entryC: './client/module/moduleC/index.js',
 }
-
-
-// function recursiveIssuer(m) {
-//   if (m.issuer) {
-//     return recursiveIssuer(m.issuer);
-//   } else {
-//     for (var chunk of m._chunks) {
-//       return chunk["name"]
-//     }
-//     return false;
-//   }
-// }
-
-// function recursiveIssuer(m) {
-//   if (m.issuer) {
-//     return recursiveIssuer(m.issuer);
-//   } else if (m.name) {
-//     console.log(m.name)
-//     return m.name;
-//   } else {
-//     return false;
-//   }
-// }
 
 function resolve (dir) {
     return path.join(__dirname, dir)
@@ -110,6 +88,7 @@ const baseConfig = {
   ],
   optimization: {
     splitChunks: {
+      maxInitialRequests: 5,
       //name: false,
       cacheGroups: {
         // 所有的chunks的来自第三方的JS库会被打爆到chunk-vendors   vue-cli 3.0只对初始化chunks第三方打包
@@ -288,7 +267,7 @@ for (let entry in entries) {
       title: entry,
       template: 'index.html',
       filename: entry + '.html',
-      chunks: [entry]
+      chunks: ['chunk-vendor', 'chunk-common', entry]
     }))
   }
 }
